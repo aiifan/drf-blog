@@ -28,7 +28,7 @@ class Tag(models.Model):
         return self.name
 
 class Article(models.Model):
-    title = models.CharField('标题',blank=True, null=True, max_length=100)
+    title = models.CharField('标题', max_length=100)
     excerpt = models.CharField('摘要', max_length=200, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, verbose_name='分类', blank=True, null=True)
     tags = models.ManyToManyField(Tag,verbose_name='标签', blank=True)

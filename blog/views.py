@@ -30,9 +30,12 @@ class ArticeFilter(rest_filters.FilterSet):
     pass
 
 
-class ArticleListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class ArticleListViewSet(viewsets.ReadOnlyModelViewSet, viewsets.GenericViewSet):
     '''
+    list:
     查看所有文章
+    retrieve:
+    查看文章详情
     '''
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
@@ -43,6 +46,13 @@ class ArticleListViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     filter_fields = ('category', 'tags', 'user') #过滤
     ordering_fields = ('views', 'created_time', 'modified_time') #排序
     search_fields = ('title', 'excerpt', 'body', 'user') #搜索
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.views += 1
+        instance.save()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
 class ArticleCreateViewSet(viewsets.ModelViewSet, viewsets.GenericViewSet):
     '''
@@ -73,9 +83,6 @@ class ArticleCreateViewSet(viewsets.ModelViewSet, viewsets.GenericViewSet):
     #     self.perform_create(serializer)
     #     headers = self.get_success_headers(serializer.data)
     #     return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-
 
     def get_queryset(self):
         return Article.objects.filter(user=self.request.user)
