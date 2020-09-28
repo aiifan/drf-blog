@@ -7,7 +7,8 @@ from django_filters import rest_framework as rest_filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from rest_framework import status
+from rest_framework.response import Response
 
 
 from .serializers import ArticleListSerializer, ArticleSerializer
@@ -62,8 +63,21 @@ class ArticleCreateViewSet(viewsets.ModelViewSet, viewsets.GenericViewSet):
     serializer_class = ArticleSerializer
     authentication_classes = (SessionAuthentication,JWTAuthentication)
     permission_classes = (IsAuthenticated,)
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     if request.data['title'] is not None:
+    #         return Response({'title':'必填项'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+
     def get_queryset(self):
         return Article.objects.filter(user=self.request.user)
     
 
-    

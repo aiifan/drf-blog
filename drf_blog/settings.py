@@ -137,3 +137,9 @@ from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+# swagger 登录注销
+SWAGGER_SETTINGS = {
+    'LOGIN_URL':'/api-auth/login/',
+    'LOGOUT_URL': '/api-auth/logout/',
+}
