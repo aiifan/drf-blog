@@ -24,12 +24,23 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 
-from blog.urls import article_router
+from rest_framework import routers
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+
+
+from blog.views import ArticleListViewSet, ArticleCreateViewSet
+from users.views import UserRegViewset, UserChangePasswordViewset
+
+
+router = routers.DefaultRouter()
+router.register('all_article', ArticleListViewSet, basename='all_article')
+router.register('article', ArticleCreateViewSet, basename='article')
+# router.register('user-reg', UserRegViewSet, basename='user-reg')
+
 
 
 
@@ -53,9 +64,13 @@ swagger_urlpatterns = [
 ]
 
 log_url = [
-    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('user/reg/', UserRegViewset.as_view(), name='user-reg'),
+    path('user/change_password/<int:pk>/', UserChangePasswordViewset.as_view({'post':"post"}), name='change'),
+    path('user/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    #path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
+
 
 urlpatterns = [
     
@@ -65,7 +80,8 @@ urlpatterns = [
 
     path('ueditor/', include('DjangoUeditor.urls')),
 
-    path('api/v1/', include(article_router.urls)),
+    path('api/v1/', include(router.urls)),
+
 
     path('api/v1/', include(log_url)),
 

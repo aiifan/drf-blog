@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'blog',
+    'users.apps.UsersConfig',
 ]
 
 
@@ -143,3 +144,8 @@ SWAGGER_SETTINGS = {
     'LOGIN_URL':'/api-auth/login/',
     'LOGOUT_URL': '/api-auth/logout/',
 }
+
+# 替换系统用户
+AUTH_USER_MODEL = 'users.UserProfile'
+
+

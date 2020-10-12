@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+
+from users.models import UserProfile
 
 from DjangoUeditor.models import UEditorField
 
@@ -38,7 +39,7 @@ class Article(models.Model):
                     upload_settings={"imageMaxSize": 1204000},
                     settings={}, command=None, blank=True
                     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE, verbose_name='作者')
     views = models.PositiveIntegerField('阅读量', default=0)
     created_time = models.DateTimeField('发布时间', auto_now_add=True)
     modified_time = models.DateTimeField('修改时间', auto_now=True)
