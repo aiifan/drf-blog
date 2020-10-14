@@ -27,7 +27,7 @@ class SmsSerializer(serializers.Serializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = USER
-        fields = ('id', 'nick_name', 'username', 'mobile')
+        fields = ('id', 'nick_name', 'username', 'avatar','mobile')
 
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(style={'input_type': 'password'}, label="原密码", write_only=True)
@@ -74,5 +74,5 @@ class UserRegSerializer(serializers.ModelSerializer):
         return attrs
     class Meta:
         model = USER
-        fields = ('id','nick_name', "username", "code", "password")
+        fields = ('id','nick_name', "username", "code", 'avatar', "password")
     
