@@ -47,8 +47,6 @@ INSTALLED_APPS = [
 ]
 
 
-
-
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -148,4 +146,10 @@ SWAGGER_SETTINGS = {
 # 替换系统用户
 AUTH_USER_MODEL = 'users.UserProfile'
 
-
+#邮件设置
+EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.qq.com'  
+EMAIL_PORT = 465
+EMAIL_HOST_USER = '459153431@qq.com' # 帐号
+EMAIL_HOST_PASSWORD = 'qq邮箱授权码'  # 密码
+DEFAULT_FROM_EMAIL = 'BLOG<{}>'.format(EMAIL_HOST_USER)

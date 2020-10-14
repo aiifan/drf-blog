@@ -33,13 +33,13 @@ from rest_framework_simplejwt.views import (
 
 
 from blog.views import ArticleListViewSet, ArticleCreateViewSet
-from users.views import UserRegViewset, UserChangePasswordViewset
-
+from users.views import SmsCodeViewset, UserVireset
 
 router = routers.DefaultRouter()
 router.register('all_article', ArticleListViewSet, basename='all_article')
 router.register('article', ArticleCreateViewSet, basename='article')
-# router.register('user-reg', UserRegViewSet, basename='user-reg')
+
+router.register('user',UserVireset, basename='user')
 
 
 
@@ -50,7 +50,7 @@ schema_view = get_schema_view(
         default_version='v1',
         description="Test description",
         # terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="aiifan@126.com"),
+        contact=openapi.Contact(email="459153431@qq.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -64,13 +64,11 @@ swagger_urlpatterns = [
 ]
 
 log_url = [
-    path('user/reg/', UserRegViewset.as_view(), name='user-reg'),
-    path('user/change_password/<int:pk>/', UserChangePasswordViewset.as_view({'post':"post"}), name='change'),
-    path('user/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('code/', SmsCodeViewset.as_view(), name='code'),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     #path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
 ]
-
-
 
 urlpatterns = [
     
@@ -81,8 +79,6 @@ urlpatterns = [
     path('ueditor/', include('DjangoUeditor.urls')),
 
     path('api/v1/', include(router.urls)),
-
-
     path('api/v1/', include(log_url)),
 
     re_path('media/(?P<path>.*)', serve, {'document_root': settings.MEDIA_ROOT}),
